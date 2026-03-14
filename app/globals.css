@@ -20,7 +20,7 @@
 .light {
   --color-background: #F5F4EF;
   --color-foreground: #111111;
-  --color-accent: #FBFF22;
+  --color-muted: #4D4D4D;
 }
 
 .nav-link {
