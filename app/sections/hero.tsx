@@ -28,7 +28,7 @@ export default function Hero() {
 
       {/* Glow blob — top left */}
       <div
-        className="pointer-events-none absolute -top-32 -left-32 w-120 h-120 rounded-full opacity-[0.1]"
+        className="pointer-events-none absolute -top-32 -left-32 w-120 h-120 rounded-full dark:opacity-[0.2] light:opacity-[0.4]"
         style={{
           background:
             "radial-gradient(circle, var(--color-accent) 0%, transparent 70%)",
@@ -181,13 +181,13 @@ export default function Hero() {
         transition={{ delay: 1.2, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-[11px] tracking-[0.2em] uppercase text-muted font-outfit">
+        <span className="text-[11px] tracking-[0.2em] uppercase text-foreground font-outfit">
           scroll
         </span>
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          className="w-px h-8 bg-gradient-to-b from-muted to-transparent"
+          className="w-px h-8 bg-gradient-to-b from-foreground to-transparent"
         />
       </motion.div>
     </section>
