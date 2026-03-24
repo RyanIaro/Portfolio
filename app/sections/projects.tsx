@@ -13,6 +13,7 @@ const featured = {
   desc: "A modern e-commerce storefront with product listings, detail pages, and a full Stripe-powered checkout flow in sandbox mode. Built with Next.js and Tailwind CSS, deployed live on Vercel.",
   tags: ["Next.js", "React", "Tailwind CSS", "Stripe"],
   github: "https://github.com/RyanIaro/E-shop",
+  image: "/e-shop.png",
   live: "https://e-shop-ryan-iaros-projects.vercel.app",
   liveLabel: "Live Demo",
 };
@@ -25,6 +26,7 @@ const rest = [
     desc: "A full-featured habit tracking mobile app with email auth, daily/weekly/monthly habits, swipe gestures to complete or delete, and a streak-based ranking system. Built with Appwrite as the backend — compiled to a real APK.",
     tags: ["React Native", "Expo", "TypeScript", "Appwrite"],
     github: "https://github.com/RyanIaro/Habit-tracking-app",
+    image: "/habit-tracker.jpg",
     live: "https://expo.dev/artifacts/eas/k4FkmEwnL6MgAGnabVFDVB.apk",
     liveLabel: "Download APK",
   },
@@ -35,6 +37,7 @@ const rest = [
     desc: "A Gen 1 Pokédex pulling data from PokéAPI. Filter by name or number, browse details — zero frameworks, just HTML, CSS, and JavaScript. A deliberate exercise in fundamentals.",
     tags: ["HTML", "CSS", "JavaScript", "PokéAPI"],
     github: "https://github.com/RyanIaro/Pokedex-project",
+    image: "/pokedex.png",
     live: "https://ryan-iaros-pokedex.netlify.app",
     liveLabel: "Live Demo",
   },

@@ -1,4 +1,5 @@
 import { motion, useInView } from "motion/react";
+import Image from "next/image";
 import { useRef } from "react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -10,6 +11,7 @@ interface project {
   desc: string,
   tags: string[],
   github: string,
+  image: string,
   live: string,
   liveLabel: string
 }
@@ -39,15 +41,25 @@ export default function ProjectCard({ project, i } : { project: project, i: numb
       initial={{ opacity: 0, y: 32 }}
       animate={!inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: 0.28 + i * 0.1, ease }}
-      className="group relative rounded-2xl p-7 overflow-hidden cursor-default flex flex-col justify-between min-h-70 border border-foreground/10 bg-foreground/4"
+      className="group relative rounded-2xl p-0 overflow-hidden cursor-default flex flex-col justify-between min-h-70 border border-foreground/10 bg-foreground/4"
     >
+      <div className="relative h-40 md:h-60">
+        
+        <Image
+          src={project.image}
+          alt={project.name}
+          fill
+          className="object-cover object-top group-hover:scale-105 transition-transform duration-200"
+        />
+      </div>
+
       {/* Lime glow on hover */}
       <div
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{ background: "radial-gradient(ellipse at top left, rgba(232,255,71,0.15) 0%, transparent 65%)" }}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 p-7">
         {/* Number + tagline */}
         <div className="flex items-center gap-3 mb-3">
           <span className="text-[11px] font-bold tracking-[0.18em] text-accent">
