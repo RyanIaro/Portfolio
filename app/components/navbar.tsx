@@ -47,7 +47,7 @@ export default function Navbar() {
           <span className="font-syne font-extrabold lg:text-2xl text-2l tracking-tight text-foreground transition-colors">
             Ryan Iaro
           </span>
-          <span className="text-accent text-2xl leading-none mb-0.5 transition-transform group-hover:scale-130 duration-200">
+          <span className="text-accent text-4xl leading-none mb-0.5 transition-transform group-hover:scale-130 duration-200">
             .
           </span>
         </button>

@@ -169,7 +169,7 @@ export default function Projects() {
 
       {/* Bottom line */}
       <div
-        className="pointer-events-none absolute bottom-0 left-0 w-full h-px opacity-10"
+        className="pointer-events-none absolute bottom-0 left-0 w-full h-px opacity-50"
         style={{ background: "linear-gradient(90deg, transparent, var(--color-accent) 40%, transparent)" }}
       />
     </section>
