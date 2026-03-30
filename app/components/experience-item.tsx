@@ -25,7 +25,7 @@ export default function experienceItem({ experiences, exp, i } : { experiences: 
     <motion.div
       initial={{ opacity: 0, x: -24 }}
       animate={!inView ? { opacity: 1, x: 0 } : {}}
-      transition={{ duration: 0.55, delay: 0.3 + i * 0.15, ease }}
+      transition={{ duration: 0.55, delay: 0.5 + i * 0.2, ease }}
       className="relative md:pl-10"
     >
       {/* Timeline dot */}

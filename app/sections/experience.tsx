@@ -9,11 +9,11 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const experiences = [
   {
     role: "Frontend Developer Intern",
-    org: "Undisclosed Organization",
+    org: "Madagascar's National Assembly",
     period: "Sep – Nov 2024",
     duration: "3 months",
     type: "Internship",
-    desc: "Designed and built the interface of an internal employee management application as part of my final-year academic requirement. Worked through the full UI from scratch — component architecture, layout, and interactions.",
+    desc: "Designed and built the interface of a Congress member management application as part of my final-year academic requirement. Worked through the full UI from scratch — component architecture, layout, and interactions.",
     tags: ["React", "Next.js", "TypeScript"],
     note: "Bachelor's degree requirement",
   },
