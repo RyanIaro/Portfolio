@@ -53,11 +53,25 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
-    setStatus("sending");
-    // TODO: implement email sending with RESEND
-    // Simulating a short delay for now
-    await new Promise((r) => setTimeout(r, 1000));
-    setStatus("sent");
+    try{
+      setStatus("sending");
+      const res = await fetch("api/contact", {
+        method: "POST",
+        headers: { "Content-Type" : "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      //Success
+      if(res.ok ) {  
+        setStatus("sent");
+      } else {
+        //Error
+        setStatus("error")
+      }
+    } catch (e) {
+      console.error("Error sending the email: ", e);
+      setStatus("error");
+    }
   };
 
   const inputClasses =
@@ -205,9 +219,13 @@ export default function Contact() {
                   <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
                     Message
                   </label>
+                  <p className="text-[12px] text-muted/60">
+                    *Please use at least 10 characters
+                  </p>
                   <textarea
                     name="message"
                     required
+                    minLength={10}
                     rows={6}
                     value={form.message}
                     onChange={handleChange}
@@ -229,7 +247,6 @@ export default function Contact() {
                   )}
                 </button>
 
-                {/* <p className="text-[11px] text-muted/60"></p> */}
               </form>
             )}
           </motion.div>
