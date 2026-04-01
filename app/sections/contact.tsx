@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
+import FormSubmitCard from "../components/form-submit-card";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -38,21 +39,40 @@ const socials = [
   },
 ];
 
+const cardContents = [
+  {
+    symbol: "✓",
+    cardTitle: "Message sent!",
+    cardMessage: "Thanks for reaching out. I'll get back to you as soon as I can.",
+    buttonLabel: "Send another →",
+    cardType: "sent",
+  },
+  {
+    symbol: "⨉",
+    cardTitle: "Message not sent!",
+    cardMessage: "Oops! An error occured and we couldn't send your message.",
+    buttonLabel: "Try sending again ↺",
+    cardType: "error",
+  }
+]
+
 type FormState = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const emptyForm = { name: "", email: "", message: "" };
+  
+  const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState<FormState>("idle");
-
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
+    // setStatus("sending");
     try{
       setStatus("sending");
       const res = await fetch("api/contact", {
@@ -62,7 +82,7 @@ export default function Contact() {
       });
 
       //Success
-      if(res.ok ) {  
+      if(res.ok) {  
         setStatus("sent");
       } else {
         //Error
@@ -72,8 +92,97 @@ export default function Contact() {
       console.error("Error sending the email: ", e);
       setStatus("error");
     }
+    // setStatus("sent");
   };
 
+  const renderForm = () => {
+    switch (status) {
+      case "sent":
+        return (
+          <FormSubmitCard
+            cardContent={cardContents[0]}
+            onButtonClick={() => { setStatus("idle"); setForm(emptyForm); }}
+          />
+        );
+      
+      case "error":
+        return(
+          <FormSubmitCard
+            cardContent={cardContents[1]}
+            onButtonClick={() => { setStatus("idle"); }}
+          />
+        );
+    
+      default:
+        return(
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Your name"
+                  className={inputClasses}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="your@email.com"
+                  className={inputClasses}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
+                Message
+              </label>
+              <p className="text-[12px] text-muted/60">
+                *Please use at least 10 characters
+              </p>
+              <textarea
+                name="message"
+                required
+                minLength={10}
+                rows={6}
+                value={form.message}
+                onChange={handleChange}
+                placeholder="What's on your mind?"
+                className={`${inputClasses} resize-none`}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={status === "sending"}
+              className="mt-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold bg-accent text-[#080808] transition-all duration-200 hover:brightness-110 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {status === "sending" ? "Sending…" : "Send message"}
+              {status !== "sending" && (
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </button>
+
+          </form>
+        );
+    }
+  }
   const inputClasses =
     "w-full bg-foreground/4 border border-foreground/10 rounded-xl px-4 py-3 text-[14px] text-foreground placeholder:text-muted outline-none transition-colors duration-200 focus:border-accent/50 focus:bg-foreground/7";
 
@@ -166,89 +275,7 @@ export default function Contact() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2, ease }}
           >
-            {status === "sent" ? (
-              <div className="flex flex-col items-start gap-4 p-8 rounded-2xl border border-accent/20 bg-accent/4">
-                <span className="text-2xl">✓</span>
-                <h3 className="font-syne font-bold text-[20px] text-foreground">
-                  Message sent!
-                </h3>
-                <p className="text-[14px] text-muted">
-                  Thanks for reaching out. I'll get back to you as soon as I can.
-                </p>
-                <button
-                  onClick={() => { setStatus("idle"); setForm({ name: "", email: "", message: "" }); }}
-                  className="mt-2 text-[13px] font-semibold text-accent/70 hover:text-accent transition-opacity"
-                >
-                  Send another →
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="Your name"
-                      className={inputClasses}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="your@email.com"
-                      className={inputClasses}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
-                    Message
-                  </label>
-                  <p className="text-[12px] text-muted/60">
-                    *Please use at least 10 characters
-                  </p>
-                  <textarea
-                    name="message"
-                    required
-                    minLength={10}
-                    rows={6}
-                    value={form.message}
-                    onChange={handleChange}
-                    placeholder="What's on your mind?"
-                    className={`${inputClasses} resize-none`}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="mt-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold bg-accent text-[#080808] transition-all duration-200 hover:brightness-110 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {status === "sending" ? "Sending…" : "Send message"}
-                  {status !== "sending" && (
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                </button>
-
-              </form>
-            )}
+            {renderForm()}
           </motion.div>
         </div>
       </div>
