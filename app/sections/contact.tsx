@@ -65,13 +65,31 @@ export default function Contact() {
   
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState<FormState>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if(errorMessage) {
+      setErrorMessage("");
+    }
   };
+
+  const validateForm = () => {
+    if(!form.name.trim()) return "Name cannot be empty.";
+    if(!form.email.trim()) return "Email cannot be empty.";
+    if(form.message.trim().length < 10) return "Message must be at least 10 characters.";
+    return null;
+  }
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
+
+    const error = validateForm();
+    if (error) {
+      setErrorMessage(error);
+      return;
+    }
+    
     // setStatus("sending");
     try{
       setStatus("sending");
@@ -124,7 +142,6 @@ export default function Contact() {
                 <input
                   type="text"
                   name="name"
-                  required
                   value={form.name}
                   onChange={handleChange}
                   placeholder="Your name"
@@ -138,7 +155,6 @@ export default function Contact() {
                 <input
                   type="email"
                   name="email"
-                  required
                   value={form.email}
                   onChange={handleChange}
                   placeholder="your@email.com"
@@ -151,13 +167,8 @@ export default function Contact() {
               <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
                 Message
               </label>
-              <p className="text-[12px] text-muted/60">
-                *Please use at least 10 characters
-              </p>
               <textarea
                 name="message"
-                required
-                minLength={10}
                 rows={6}
                 value={form.message}
                 onChange={handleChange}
@@ -166,6 +177,12 @@ export default function Contact() {
               />
             </div>
 
+                
+            {errorMessage && (
+            <p className="text-[12px] text-red-400">
+              {errorMessage}
+            </p>
+            )}
             <button
               type="submit"
               disabled={status === "sending"}
