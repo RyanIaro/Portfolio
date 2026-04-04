@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -11,6 +10,10 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function Hero() {
+  const scrollTo = (id: string) => {
+    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section
       id="hero"
@@ -71,22 +74,22 @@ export default function Hero() {
 
           {/* CTAs */}
           <motion.div {...fadeUp(0.5)} className="flex items-center gap-4 pt-2">
-            <Link
-              href="#projects"
+            <button
+              onClick={() => scrollTo("projects")}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold font-outfit text-[#080808] bg-accent transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-95"
             >
               View Projects
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </Link>
+            </ button>
 
-            <Link
-              href="#contact"
+            <button
+              onClick={() => scrollTo("contact")}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold font-outfit text-foreground border border-foreground transition-all duration-200 hover:border-accent hover:text-accent hover:scale-[1.03] active:scale-95"
             >
               Contact Me
-            </Link>
+            </button>
           </motion.div>
 
           {/* Social links */}
