@@ -3,6 +3,7 @@ import { Outfit, Syne } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -23,6 +24,7 @@ export default function RootLayout({
         <ThemeProvider attribute={"class"} defaultTheme="dark">
           <Navbar />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
