@@ -106,9 +106,9 @@ export default function About() {
                 initial={{ opacity: 0, y: 28 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.55, delay: 0.18 + i * 0.09, ease: [0.22, 1, 0.36, 1] as const }}
-                className="group items-start p-5 cursor-default border border-muted/25 rounded-xl bg-muted/5 hover:border-accent dark:hover:bg-accent/5 light:hover:bg-accent/20 transition-colors duration-300"
+                className="group items-start p-5 cursor-default border border-muted/25 rounded-xl bg-muted/5 hover:border-accent dark:hover:bg-accent/5 light:hover:bg-accent/20 hover:scale-105 transition-all duration-300"
               >
-                <span className="text-2xl mb-3 block">{emoji}</span>
+                <span className="text-2xl mb-3 w-1 block group-hover:rotate-360 transition-transform duration-200">{emoji}</span>
                 <h3 className="group-hover:text-accent font-syne font-bold text-[15px] transition-colors duration-300">{trait}</h3>
                 <p className="text-[13px] text-muted leading-relaxed">{desc}</p>
               </motion.div>
