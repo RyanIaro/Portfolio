@@ -88,7 +88,7 @@ export default function Navbar() {
 
           {/* Resume CTA */}
           <a
-            href="/resume.pdf"
+            href="/curriculum-vitae(EN).pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="font-outfit text-[15px] font-medium tracking-[0.06em] uppercase
@@ -140,7 +140,7 @@ export default function Navbar() {
             </button>
           ))}
           <a
-            href="/resume.pdf"
+            href="/curriculum-vitae(EN).pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="font-outfit text-xs font-medium tracking-[0.06em] uppercase mt-2
