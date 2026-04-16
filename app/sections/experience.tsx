@@ -3,35 +3,15 @@
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import ExperienceItem from "../components/experience-item";
+import { useLanguage } from "../lib/LanguageContext";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-const experiences = [
-  {
-    role: "Frontend Developer Intern",
-    org: "Madagascar's National Assembly",
-    period: "Sep – Nov 2024",
-    duration: "3 months",
-    type: "Internship",
-    desc: "Designed and built the interface of a Congress member management application as part of my final-year academic requirement. Worked through the full UI from scratch — component architecture, layout, and interactions.",
-    tags: ["React", "Next.js", "TypeScript"],
-    note: "Bachelor's degree requirement",
-  },
-  {
-    role: "Frontend Developer",
-    org: "Construction Company",
-    period: "Oct 2025",
-    duration: "Freelance",
-    type: "Freelance",
-    desc: "Took on a client brief to improve and modernise an existing company website. Learned and worked within WordPress to deliver the redesign, adapting to the platform's constraints while meeting the client's expectations. Project delivered and approved.",
-    tags: ["WordPress", "CSS"],
-    note: "Delivered & paid",
-  },
-];
 
 export default function Experience() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { t } = useLanguage();
+  const experiences = t.experience.items
 
   return (
     <section
@@ -50,7 +30,7 @@ export default function Experience() {
           className="text-[12px] font-semibold tracking-[0.22em] uppercase text-muted mb-6 flex items-center gap-3"
         >
           <span className="inline-block w-6 h-px bg-accent" />
-          Experience
+          {t.experience.label}
         </motion.p>
 
         <motion.h2
@@ -59,8 +39,8 @@ export default function Experience() {
           transition={{ duration: 0.6, delay: 0.1, ease }}
           className="font-syne font-bold text-[clamp(2rem,4vw,3rem)] text-foreground leading-tight mb-20"
         >
-          Where I've{" "}
-          <span className="text-accent">contributed.</span>
+          {t.experience.heading}{" "}
+          <span className="text-accent">{t.experience.headingAccent}</span>
         </motion.h2>
 
         {/* Timeline */}

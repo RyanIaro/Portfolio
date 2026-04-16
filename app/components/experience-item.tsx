@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
+import { type Experiences } from "../lib/translations";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -9,15 +10,13 @@ interface experience {
   role: string,
   org: string,
   period: string,
-  duration: string,
   type: string,
   desc: string,
   tags: string[],
   note: string,
 }
 
-
-export default function experienceItem({ experiences, exp, i } : { experiences: experience[], exp: experience, i: number}) {
+export default function experienceItem({ experiences, exp, i } : { experiences: Experiences, exp: Experiences[number], i: number}) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
 

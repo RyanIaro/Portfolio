@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
+import { LanguageProvider } from "./lib/LanguageContext";
 
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne' })
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
@@ -22,9 +23,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${syne.variable} ${outfit.variable}`}>
         <ThemeProvider attribute={"class"} defaultTheme="dark">
-          <Navbar />
-          {children}
-          <Footer />
+          <LanguageProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

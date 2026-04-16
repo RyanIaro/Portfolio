@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { motion, useInView } from "motion/react";
 import FormSubmitCard from "../components/form-submit-card";
+import { useLanguage } from "../lib/LanguageContext";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -51,33 +52,35 @@ const socials = [
   }
 ];
 
-const cardContents = [
-  {
-    symbol: "✓",
-    cardTitle: "Message sent!",
-    cardMessage: "Thanks for reaching out. I'll get back to you as soon as I can.",
-    buttonLabel: "Send another →",
-    cardType: "sent",
-  },
-  {
-    symbol: "⨉",
-    cardTitle: "Message not sent!",
-    cardMessage: "Oops! An error occured and we couldn't send your message.",
-    buttonLabel: "Try sending again ↺",
-    cardType: "error",
-  }
-]
-
 type FormState = "idle" | "sending" | "sent" | "error";
 
 export default function Contact() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const emptyForm = { name: "", email: "", message: "" };
+  const inputClasses = "w-full bg-foreground/4 border border-foreground/10 rounded-xl px-4 py-3 text-[14px] text-foreground placeholder:text-muted outline-none transition-colors duration-200 focus:border-accent/50 focus:bg-foreground/7";
   
   const [form, setForm] = useState(emptyForm);
   const [status, setStatus] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const { t } = useLanguage();
+  
+  const cardContents = [
+    {
+      symbol: "✓",
+      cardTitle: t.contact.successTitle,
+      cardMessage: t.contact.successDesc,
+      buttonLabel: t.contact.successReset,
+      cardType: "sent",
+    },
+    {
+      symbol: "⨉",
+      cardTitle: t.contact.failureTitle,
+      cardMessage: t.contact.failureDesc,
+      buttonLabel: t.contact.failureReset,
+      cardType: "error",
+    }
+  ]
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -87,9 +90,9 @@ export default function Contact() {
   };
 
   const validateForm = () => {
-    if(!form.name.trim()) return "Name cannot be empty.";
-    if(!form.email.trim()) return "Email cannot be empty.";
-    if(form.message.trim().length < 10) return "Message must be at least 10 characters.";
+    if(!form.name.trim()) return t.contact.errorName;
+    if(!form.email.trim()) return t.contact.errorEmail;
+    if(form.message.trim().length < 10) return t.contact.errorMessage;
     return null;
   }
 
@@ -114,8 +117,8 @@ export default function Contact() {
       //Success
       if(res.ok) {  
         setStatus("sent");
+      //Error
       } else {
-        //Error
         setStatus("error")
       }
     } catch (e) {
@@ -149,27 +152,27 @@ export default function Contact() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
-                  Name
+                  {t.contact.nameLabel}
                 </label>
                 <input
                   type="text"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                  placeholder="Your name"
+                  placeholder={t.contact.namePlaceholder}
                   className={inputClasses}
                 />
               </div>
               <div className="flex flex-col gap-1.5">
                 <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
-                  Email
+                  {t.contact.emailLabel}
                 </label>
                 <input
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  placeholder="your@email.com"
+                  placeholder={t.contact.emailPlaceholder}
                   className={inputClasses}
                 />
               </div>
@@ -177,14 +180,14 @@ export default function Contact() {
 
             <div className="flex flex-col gap-1.5">
               <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-muted">
-                Message
+                {t.contact.messageLabel}
               </label>
               <textarea
                 name="message"
                 rows={6}
                 value={form.message}
                 onChange={handleChange}
-                placeholder="What's on your mind?"
+                placeholder={t.contact.messagePlaceholder}
                 className={`${inputClasses} resize-none`}
               />
             </div>
@@ -200,7 +203,7 @@ export default function Contact() {
               disabled={status === "sending"}
               className="mt-1 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-[14px] font-bold bg-accent text-[#080808] transition-all duration-200 hover:brightness-110 hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {status === "sending" ? "Sending…" : "Send message"}
+              {status === "sending" ? t.contact.sending : t.contact.submit}
               {status !== "sending" && (
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -212,8 +215,6 @@ export default function Contact() {
         );
     }
   }
-  const inputClasses =
-    "w-full bg-foreground/4 border border-foreground/10 rounded-xl px-4 py-3 text-[14px] text-foreground placeholder:text-muted outline-none transition-colors duration-200 focus:border-accent/50 focus:bg-foreground/7";
 
   return (
     <section
@@ -238,7 +239,7 @@ export default function Contact() {
           className="text-[12px] font-semibold tracking-[0.22em] uppercase text-muted mb-6 flex items-center gap-3"
         >
           <span className="inline-block w-6 h-px bg-accent" />
-          Contact
+          {t.contact.label}
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -251,8 +252,8 @@ export default function Contact() {
               transition={{ duration: 0.6, delay: 0.1, ease }}
               className="font-syne font-bold text-[clamp(2rem,4vw,3rem)] text-foreground leading-tight mb-6"
             >
-              Let's build something{" "}
-              <span className="text-accent">together.</span>
+              {t.contact.heading}{" "}
+              <span className="text-accent">{t.contact.headingAccent}</span>
             </motion.h2>
 
             <motion.p
@@ -261,7 +262,7 @@ export default function Contact() {
               transition={{ duration: 0.55, delay: 0.2, ease }}
               className="text-[16px] leading-relaxed text-muted mb-10 max-w-md"
             >
-              I'm currently open to frontend opportunities — full-time, part-time, internship, or freelance. Whether you have a project in mind or just want to say hi, my inbox is always open.
+              {t.contact.blurb}
             </motion.p>
 
             {/* Socials */}

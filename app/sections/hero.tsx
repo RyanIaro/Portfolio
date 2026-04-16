@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import Image from "next/image";
+import { useLanguage } from "../lib/LanguageContext";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -10,6 +11,8 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function Hero() {
+  const { t } = useLanguage();
+
   const scrollTo = (id: string) => {
     document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -47,7 +50,7 @@ export default function Hero() {
               <span
                 className="inline-block w-2 h-2 rounded-full bg-accent"
               />
-              Frontend Developer
+              {t.hero.badge}
             </span>
           </motion.div>
 
@@ -66,9 +69,9 @@ export default function Hero() {
             {...fadeUp(0.35)}
             className="max-w-md text-[17px] leading-relaxed text-muted font-outfit"
           >
-            Turning your ideas into fast, clean{" "}
+            {t.hero.tagline}{" "}
             <span className="text-foreground font-medium">
-              and enjoyable experiences.
+              {t.hero.taglineAccent}
             </span>
           </motion.p>
 
@@ -78,7 +81,7 @@ export default function Hero() {
               onClick={() => scrollTo("projects")}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold font-outfit text-[#080808] bg-accent transition-all duration-200 hover:scale-[1.03] hover:brightness-110 active:scale-95"
             >
-              View Projects
+              {t.hero.cta}
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -88,7 +91,7 @@ export default function Hero() {
               onClick={() => scrollTo("contact")}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[14px] font-semibold font-outfit text-foreground border border-foreground transition-all duration-200 hover:border-accent hover:text-accent hover:scale-[1.03] active:scale-95"
             >
-              Contact Me
+              {t.hero.ctaContact}
             </button>
           </motion.div>
 
@@ -133,7 +136,7 @@ export default function Hero() {
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative flex-shrink-0 w-70 md:w-[320px] lg:w-90"
+          className="relative shrink-0 w-70 md:w-[320px] lg:w-90"
         >
           {/* Accent square — offset behind */}
           <div
@@ -172,7 +175,7 @@ export default function Hero() {
             className="absolute -left-8 top-10 flex items-center gap-2 px-3 py-2 rounded-lg bg-accent text-[#080808] text-[12px] font-semibold font-outfit shadow-lg"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[#080808] animate-pulse" />
-            Open to work
+            {t.hero.openToWork}
           </motion.div>
         </motion.div>
       </div>
@@ -185,7 +188,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-[11px] tracking-[0.2em] uppercase text-foreground font-outfit">
-          scroll
+          {t.hero.scroll}
         </span>
         <motion.div
           animate={{ y: [0, 6, 0] }}

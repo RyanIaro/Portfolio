@@ -1,6 +1,6 @@
 "use client";
 
-const NAV_LINKS = ["About", "Skills", "Projects", "Experience", "Contact"] as const;
+import { useLanguage } from "../lib/LanguageContext";
 
 const socials = [
   {
@@ -44,6 +44,15 @@ const socials = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { t } = useLanguage();
+
+  const NAV_LINKS = [
+    { label: t.nav.about,      id: 'about' },
+    { label: t.nav.skills,     id: 'skills' },
+    { label: t.nav.projects,   id: 'projects' },
+    { label: t.nav.experience, id: 'experience' },
+    { label: t.nav.contact,    id: 'contact' },
+  ] as const;
 
   const scrollTo = (id: string) => {
     document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
@@ -60,19 +69,19 @@ export default function Footer() {
               Ryan Iaro<span className="text-accent">.</span>
             </span>
             <p className="text-[12px] text-muted">
-              © {year} Ryan Iaro RASAMOELISON. All rights reserved.
+              © {year} Ryan Iaro RASAMOELISON. {t.footer.copyright}
             </p>
           </div>
 
           {/* Nav links */}
           <nav className="flex flex-wrap gap-x-6 gap-y-2">
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map((link, i) => (
               <button
-                key={link}
-                onClick={() => scrollTo(link)}
+                key={i}
+                onClick={() => scrollTo(link.id)}
                 className="text-[13px] text-muted hover:text-accent transition-colors duration-200"
               >
-                {link}
+                {link.label}
               </button>
             ))}
           </nav>

@@ -41,7 +41,7 @@ export default function ProjectCard({ project, i } : { project: project, i: numb
       initial={{ opacity: 0, y: 32 }}
       animate={!inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: 0.5 + i * 0.2, ease }}
-      className="group relative rounded-2xl p-0 overflow-hidden cursor-default flex flex-col justify-between min-h-70 border border-foreground/10 bg-foreground/4"
+      className="group relative rounded-2xl p-0 overflow-hidden cursor-default flex flex-col min-h-70 border border-foreground/10 bg-foreground/4"
     >
       <div className="relative h-40 md:h-60">
         

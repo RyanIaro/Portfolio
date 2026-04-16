@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
-
-const NAV_LINKS = ['About', 'Skills', 'Projects', 'Experience', 'Contact'] as const;
+import { useLanguage } from '../lib/LanguageContext';
 
 export default function Navbar() {
   const { theme, setTheme } = useTheme();
+  const { lang, setLang, t } = useLanguage();
   const [ mounted, setMounted ] = useState(false);
   const [ scrolled, setScrolled ] = useState(false);
   const [ menuOpen, setMenuOpen ] = useState(false);
@@ -22,10 +22,20 @@ export default function Navbar() {
 
   const isDark = theme === 'dark';
 
+  const NAV_LINKS = [
+    { label: t.nav.about,      id: 'about' },
+    { label: t.nav.skills,     id: 'skills' },
+    { label: t.nav.projects,   id: 'projects' },
+    { label: t.nav.experience, id: 'experience' },
+    { label: t.nav.contact,    id: 'contact' },
+  ] as const;
+
   const scrollTo = (id: string) => {
     setMenuOpen(false);
-    document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const toggleLang = () => setLang(lang === 'en' ? 'fr' : 'en');
 
   return (
     <nav
@@ -55,19 +65,32 @@ export default function Navbar() {
         {/* ── Desktop nav ── */}
         <div className="hidden md:flex items-center gap-8">
           <div className="flex items-center gap-7">
-            {NAV_LINKS.map((link) => (
+            {NAV_LINKS.map(({ label, id }) => (
               <button
-                key={link}
-                onClick={() => scrollTo(link)}
+                key={id}
+                onClick={() => scrollTo(id)}
                 className="nav-link font-outfit text-[17px] tracking-wide text-muted hover:text-foreground transition-colors duration-200"
               >
-                {link}
+                {label}
               </button>
             ))}
           </div>
 
           {/* Divider */}
           <div className="w-px h-5 bg-muted" />
+
+          {/* Language toggle */}
+          {mounted && (
+            <button
+              onClick={toggleLang}
+              aria-label="Toggle language"
+              className="w-[37px] h-[37px] rounded-full flex items-center justify-center
+                bg-muted/20 hover:bg-muted/50 font-outfit font-bold text-[12px] tracking-widest
+                text-muted hover:text-accent transition-all duration-200"
+            >
+              {lang === 'en' ? 'EN' : 'FR'}
+            </button>
+          )}
 
           {/* Theme toggle */}
           {mounted && (
@@ -78,30 +101,39 @@ export default function Navbar() {
                 transition-all duration-200 hover:rotate-20 hover:scale-110"
               aria-label="Toggle theme"
             >
-              {isDark ? (
-                <SunIcon />
-              ) : (
-                <MoonIcon />
-              )}
+              {isDark ? <SunIcon /> : <MoonIcon />}
             </button>
           )}
 
           {/* Resume CTA */}
           <a
-            href="/curriculum-vitae(EN).pdf"
+            href={t.resume}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-outfit text-[15px] font-medium tracking-[0.06em] uppercase
-              px-[18px] py-2 rounded-sm border border-muted/80
-              text-foreground transition-all duration-200
+            className="font-outfit text-[15px] text-center font-medium
+              tracking-[0.06em] uppercase lg:w-24 px-[18px] py-2 rounded-sm border
+              border-muted/80 text-foreground transition-all duration-200
               hover:bg-accent hover:text-[#080808] hover:border-accent"
           >
-            Resume
+            {t.nav.resume}
           </a>
         </div>
 
-        {/* ── Mobile: theme + hamburger ── */}
+        {/* ── Mobile: lang + theme + hamburger ── */}
         <div className="flex md:hidden items-center gap-4">
+
+          {/* Language toggle */}
+          {mounted && (
+            <button
+              onClick={toggleLang}
+              aria-label="Toggle language"
+              className="font-outfit font-bold text-[12px] tracking-widest text-muted hover:text-accent transition-colors duration-200"
+            >
+              {lang === 'en' ? 'EN' : 'FR'}
+            </button>
+          )}
+
+          {/* Theme toggle */}
           {mounted && (
             <button
               onClick={() => setTheme(isDark ? 'light' : 'dark')}
@@ -111,6 +143,8 @@ export default function Navbar() {
               {isDark ? <SunIcon /> : <MoonIcon />}
             </button>
           )}
+
+          {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="flex flex-col gap-[5px] items-end"
@@ -129,25 +163,25 @@ export default function Navbar() {
       {/* ── Mobile menu ── */}
       <div className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${menuOpen ? 'max-h-80' : 'max-h-0'}`}>
         <div className="bg-background px-8 py-6 flex flex-col gap-5 border-t border-white/6">
-          {NAV_LINKS.map((link, i) => (
+          {NAV_LINKS.map(({ label, id }, i) => (
             <button
-              key={link}
-              onClick={() => scrollTo(link)}
+              key={id}
+              onClick={() => scrollTo(id)}
               className="font-outfit text-sm tracking-wide text-muted hover:text-foreground text-left transition-colors duration-200"
               style={{ animationDelay: `${i * 50}ms` }}
             >
-              {link}
+              {label}
             </button>
           ))}
           <a
-            href="/curriculum-vitae(EN).pdf"
+            href={t.resume}
             target="_blank"
             rel="noopener noreferrer"
             className="font-outfit text-xs font-medium tracking-[0.06em] uppercase mt-2
               px-4 py-2 rounded-sm border border-muted text-foreground text-center
               hover:bg-accent hover:text-[#080808] hover:border-accent transition-all duration-200 w-fit"
           >
-            Resume
+            {t.nav.resume}
           </a>
         </div>
       </div>

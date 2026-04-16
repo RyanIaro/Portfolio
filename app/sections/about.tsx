@@ -2,10 +2,12 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import { useLanguage } from "../lib/LanguageContext";
 
 export default function About() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" })
+  const { t } = useLanguage();
   return (
     <section
     id="about"
@@ -27,7 +29,7 @@ export default function About() {
           className="text-[12px] font-semibold tracking-[0.22em] uppercase text-muted mb-6 flex items-center gap-3"
         >
           <span className="inline-block bg-accent w-6 h-px"/>
-          About me
+          {t.about.label}
         </motion.p>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
@@ -39,18 +41,16 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] as const}}
               className="text-[clamp(2rem,4vw,3.2rem)] font-bold font-syne leading-tight mb-8"
             >
-              Quiet by nature,{" "}
-              <span className="text-accent">precise</span>{" "}
-              by choice.
+              {t.about.heading}{" "}
+              <span className="text-accent">{t.about.headingAccent}</span>{" "}
+              {t.about.headingSuffix}
             </motion.h2>
 
             <div className="flex flex-col gap-5">
               {[
-                "I'm a frontend developer who enjoys the web because of the experiences it can give to people. Every interface is a tiny world — and getting that world to feel just right is what keeps me going.",
-
-                "I work calmly and deliberately. I'm not the fastest, but I'm thorough. I'd rather take an extra hour to get something right than ship something I'm not proud of. That streak of perfectionism is something I've learned to embrace.",
-              
-                "Outside of work, I draw and play video games — both of which have shaped how I think about design. Games especially: the best ones nail immersion, feedback, and delight in a way most apps never achieve."
+                t.about.p1,
+                t.about.p2,
+                t.about.p3
               ].map((text, i) => (
                 <motion.p
                   key={i}
@@ -72,35 +72,14 @@ export default function About() {
               className="mt-10 pl-5 border-l-2 border-accent"
             >
               <p className="text-[15px] text-foreground italic">
-                "I build for users, not for specs. If it doesn't feel good to use, it isn't done."
+                {t.about.quote}
               </p>
             </motion.blockquote>
           </div>
 
           {/* RIGHT: Trait cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:pt-2">
-            {[
-              {
-                emoji: "🎮",
-                trait: "Gamer",
-                desc: "Video games are my main playground — great UX inspiration lives there.",
-              },
-              {
-                emoji: "✏️",
-                trait: "Artist",
-                desc: "I draw on the side. Attention to visual detail bleeds into everything I build.",
-              },
-              {
-                emoji: "🎯",
-                trait: "Perfectionist",
-                desc: "I might be slow, but I won't ship until I'm genuinely satisfied with the result.",
-              },
-              {
-                emoji: "🤝",
-                trait: "Reserved",
-                desc: "Calm and quiet at first — give me time and I'll open up completely.",
-              }
-            ].map(({ emoji, trait, desc }, i) => (
+            {t.about.traits.map(({ emoji, label, desc }, i) => (
               <motion.div 
                 key={i}
                 initial={{ opacity: 0, y: 28 }}
@@ -109,7 +88,7 @@ export default function About() {
                 className="group items-start p-5 cursor-default border border-muted/25 rounded-xl bg-muted/5 hover:border-accent dark:hover:bg-accent/5 light:hover:bg-accent/20 hover:scale-105 transition-all duration-300"
               >
                 <span className="text-2xl mb-3 w-1 block group-hover:animate-[spin_0.2s_ease-in-out_1]">{emoji}</span>
-                <h3 className="group-hover:text-accent font-syne font-bold text-[15px] transition-colors duration-300">{trait}</h3>
+                <h3 className="group-hover:text-accent font-syne font-bold text-[15px] transition-colors duration-300">{label}</h3>
                 <p className="text-[13px] text-muted leading-relaxed">{desc}</p>
               </motion.div>
             ))}

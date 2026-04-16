@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "motion/react";
+import { useLanguage } from "../lib/LanguageContext";
 
 const core = [
   { name: "JavaScript", sub: "/TypeScript", color: "#F7DF1E", textColor: "#000" },
@@ -28,6 +29,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export default function Skills() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+  const { t } = useLanguage();
 
   return (
     <section
@@ -46,7 +48,7 @@ export default function Skills() {
           className="text-[12px] font-semibold tracking-[0.22em] uppercase text-muted mb-6 flex items-center gap-3"
         >
           <span className="inline-block w-6 h-px bg-accent" />
-          Skills & stack
+          {t.skills.label}
         </motion.p>
 
         <motion.h2
@@ -55,8 +57,8 @@ export default function Skills() {
           transition={{ duration: 0.6, delay: 0.1, ease }}
           className="font-syne font-bold text-[clamp(2rem,4vw,3rem)] text-foreground leading-tight mb-16"
         >
-          What I build{" "}
-          <span className="text-accent">with.</span>
+          {t.skills.heading}{" "}
+          <span className="text-accent">{t.skills.headingAccent}</span>
         </motion.h2>
 
         {/* ── CORE STACK ── */}
@@ -67,7 +69,7 @@ export default function Skills() {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted mb-5"
           >
-            Core stack
+            {t.skills.core}
           </motion.p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -112,7 +114,7 @@ export default function Skills() {
               transition={{ duration: 0.4, delay: 0.35 }}
               className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted mb-5"
             >
-              Recently learned
+              {t.skills.recent}
             </motion.p>
 
             <div className="flex flex-col gap-3">
@@ -151,7 +153,7 @@ export default function Skills() {
               transition={{ duration: 0.4, delay: 0.38 }}
               className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted mb-5"
             >
-              Explored
+              {t.skills.explored}
             </motion.p>
 
             <div className="flex flex-col gap-3">
@@ -182,7 +184,7 @@ export default function Skills() {
             transition={{ duration: 0.4, delay: 0.55 }}
             className="text-[11px] font-semibold tracking-[0.18em] uppercase text-muted mb-5"
           >
-            Foundations
+            {t.skills.foundations}
           </motion.p>
 
           <motion.div
