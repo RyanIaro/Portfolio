@@ -49,6 +49,7 @@ export default function ProjectCard({ project, i } : { project: project, i: numb
           src={project.image}
           alt={project.name}
           fill
+          sizes="(max-width: 768px) 100vw, 50vw"
           className="object-cover object-top group-hover:scale-105 transition-transform duration-200"
         />
       </div>
