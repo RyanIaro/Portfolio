@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ryan Iaro RASAMOELISON | Frontend Developer",
     description: "Frontend Developer specializing in React, Next.js, and Tailwind CSS.",
-    url: "https://my-domain.vercel.app", // TODO: update after deployment
+    url: "https://portfolio-ryan-iaro.vercel.app",
     siteName: "Ryan Iaro Portfolio",
     locale: "en_US",
     type: "website",
