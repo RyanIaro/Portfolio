@@ -132,6 +132,13 @@ export const translations = {
     footer: {
       copyright: "All rights reserved.",
     },
+
+    not_found: {
+      headline: "Page Not Found",
+      message: "Looks like you've wandered into uncharted territory. This page doesn't exist.",
+      back: "Go back home",
+      loadingTip: "Have you tried the navigation menu ? Or were you just curious ?"
+    }
   },
 
   fr: {
@@ -265,6 +272,13 @@ export const translations = {
 
     footer: {
       copyright: "Tous droits réservés.",
+    },
+
+    not_found: {
+      headline: "Page introuvable",
+      message: "Il semble que vous vous soyez aventuré en terrain inconnu. Cette page n'existe pas.",
+      back: "Retour à l'accueil",
+      loadingTip: "Avez-vous essayé le menu de navigation ? Ou étiez-vous simplement curieux ?"
     },
   },
 } as const;
