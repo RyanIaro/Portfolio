@@ -19,7 +19,7 @@ const rest = [
     tags: ["React Native", "Expo", "TypeScript", "Appwrite"],
     github: "https://github.com/RyanIaro/Habit-tracking-app",
     image: "/habit-tracker.jpg",
-    live: "https://expo.dev/artifacts/eas/6fNvsiTxoqph9fwZF4DSYF.apk",
+    live: "https://expo.dev/artifacts/eas/nG1G3doWAfmSAgE-Z_36A3uJZvJ8fyLjLF5euXzJJ2A.apk",
   },
   {
     tags: ["HTML", "CSS", "JavaScript", "PokéAPI"],
